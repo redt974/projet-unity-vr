@@ -56,7 +56,10 @@ public class Interactor : MonoBehaviour
             speed = (targetPosition - previousPosition) / Time.deltaTime;
             previousPosition = targetPosition;
 
-            currentSelection.transform.position = targetPosition;
+            if (currentRigidbody != null)
+            {
+                currentRigidbody.MovePosition(targetPosition);
+            }
         }
         else
         {

@@ -18,10 +18,10 @@ public class BouleChaine : MonoBehaviour
         if (distance > maxDistance)
         {
             Vector3 direction = (transform.position - pointAttache.position).normalized;
-            transform.position = pointAttache.position + direction * maxDistance;
+            rb.MovePosition(pointAttache.position + direction * maxDistance);
 
             // Optionnel : annuler la vitesse dans la direction d’extension
-            rb.linearVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, direction);
+            rb.linearVelocity = Vector3.zero;
         }
     }
 }

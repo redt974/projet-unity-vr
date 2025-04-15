@@ -1548,9 +1548,9 @@ GameObject:
   - component: {fileID: 219707216}
   - component: {fileID: 219707215}
   - component: {fileID: 219707220}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Boule
-  m_TagString: Boule-Chaine
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5064,18 +5064,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbe81d2b058e5a43aff3931105e5f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabAction: {fileID: -3370036560457221378, guid: 33d1171fbe6eb9740831e93f44ae8a0a, type: 3}
-  positionAction: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  manette: {fileID: 637866318}
-  debugWithMouse: 1
-  debugCamera: {fileID: 1907660401}
   layerMask:
     serializedVersion: 2
     m_Bits: 0
+  manette: {fileID: 637866318}
+  grabAction: {fileID: -3370036560457221378, guid: 33d1171fbe6eb9740831e93f44ae8a0a, type: 3}
+  positionAction: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   speedMultiplier: 1
-  physicsTags:
-  - BouleChaine
-  - Canon
+  lineRenderer: {fileID: 0}
 --- !u!1 &642905734
 GameObject:
   m_ObjectHideFlags: 0
@@ -15198,11 +15194,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!20 &1907660401 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 1767192439, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
-  m_PrefabInstance: {fileID: 441087506}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1910318750
 GameObject:
   m_ObjectHideFlags: 0

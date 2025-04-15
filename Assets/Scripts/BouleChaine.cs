@@ -2,26 +2,23 @@ using UnityEngine;
 
 public class BouleChaine : MonoBehaviour
 {
-    [SerializeField] private Transform pointAttache; // Dernier maillon de la chaîne
-    [SerializeField] private float maxDistance = 1.5f;
+    [SerializeField] private Transform pivot;
 
-    private Rigidbody rb;
+    private bool isGrabbed = false;
 
-    private void Start()
+    public void SetGrabbed(bool state)
     {
-        rb = GetComponent<Rigidbody>();
+        isGrabbed = state;
     }
 
-    private void FixedUpdate()
+    private void OnDrawGizmos()
     {
-        float distance = Vector3.Distance(transform.position, pointAttache.position);
-        if (distance > maxDistance)
-        {
-            Vector3 direction = (transform.position - pointAttache.position).normalized;
-            rb.MovePosition(pointAttache.position + direction * maxDistance);
+        if (pivot == null) return;
 
-            // Optionnel : annuler la vitesse dans la direction d’extension
-            rb.linearVelocity = Vector3.zero;
-        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(pivot.position, 0.1f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(pivot.position, transform.position);
     }
 }

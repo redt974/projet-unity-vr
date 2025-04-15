@@ -16,6 +16,10 @@ public class Interactor : MonoBehaviour
     private bool isGrabbing;
     private Rigidbody currentRigidbody;
     private Vector3 previousPosition;
+    [SerializeField] private InputActionReference joystickMoveAction;
+    [SerializeField] private float moveSensitivity = 0.5f;
+    private float currentDistance = 1f; // distance initiale
+
     private void OnEnable()
     {
         grabAction.action.performed += OnGrab;
@@ -23,6 +27,7 @@ public class Interactor : MonoBehaviour
 
         grabAction.action.Enable();
         positionAction.action.Enable();
+        joystickMoveAction.action.Enable();
     }
 
     private void OnDisable()
@@ -32,8 +37,8 @@ public class Interactor : MonoBehaviour
 
         grabAction.action.Disable();
         positionAction.action.Disable();
+        joystickMoveAction.action.Disable();
     }
-
     private void Update()
     {
         lineRenderer.SetPosition(0, manette.transform.position - Vector3.up * .5f);
@@ -41,13 +46,16 @@ public class Interactor : MonoBehaviour
 
         if (isGrabbing && currentSelection != null)
         {
-            Vector3 targetPosition = manette.transform.position + Vector3.Distance(manette.transform.position, currentSelection.transform.position) * manette.transform.forward;
-            
-            // Calcul de la vitesse par différence de position
+            // Lire le mouvement du joystick vertical (axe Y)
+            Vector2 joystickInput = joystickMoveAction.action.ReadValue<Vector2>();
+            currentDistance += joystickInput.y * moveSensitivity * Time.deltaTime;
+            currentDistance = Mathf.Clamp(currentDistance, 0.2f, 5f); // Limite la distance
+
+            Vector3 targetPosition = manette.transform.position + manette.transform.forward * currentDistance;
+
             speed = (targetPosition - previousPosition) / Time.deltaTime;
             previousPosition = targetPosition;
 
-            // Déplacement de l'objet à la nouvelle position
             currentSelection.transform.position = targetPosition;
         }
         else

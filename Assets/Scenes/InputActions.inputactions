@@ -49,6 +49,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5d081241-b009-4bb4-b8f0-422b34bb1f02",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2f767df7-23ca-4829-a92a-83ff3a03bcf6",
                     "path": "<XRController>{RightHand}/{TriggerButton}",
                     "interactions": "",
@@ -62,6 +73,17 @@
                     "name": "",
                     "id": "771095b3-06a7-4aa6-a68c-2e3f9aece398",
                     "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a467ab5-3b8d-4d06-9379-e5d367ed6573",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

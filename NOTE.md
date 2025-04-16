@@ -8,7 +8,7 @@ Le joueur dispose d'une sélection de **10 objets physiques** à placer stratég
 2. **🪀 Trampoline / Ressort**  
    Réagit au contact en propulsant le Colis vers le haut ou sur le côté. Son angle de rebond est ajustable pour orienter la trajectoire.
 
-3. **💣* Canon*  
+3. **💣 Canon**
    Tire le Colis ou d'autres projectiles à une vitesse et un angle configurables. Permet de franchir de grandes distances ou d’activer des mécanismes à distance.
 
 4. **💨 Sol accélérant**  
@@ -17,7 +17,7 @@ Le joueur dispose d'une sélection de **10 objets physiques** à placer stratég
 5. **🔁 Plateau tournant**  
    Entraîne en rotation tout objet posé dessus, y compris le Colis. Peut servir à orienter le mouvement ou à synchroniser un lancement.
 
-6. **⬇️ Mur automatique (ascenseur)**  
+6. **⬇️ Mur automatique (montant/descendant)**  
    Mur escamotable qui monte ou descend à intervalles réguliers ou en réponse à un événement. Peut bloquer ou libérer le passage au bon moment.
 
 7. **🧲 Aimant**  
@@ -38,3 +38,10 @@ Chaque objet possède :
 - **Un comportement physique** (interactions avec le Colis ou d'autres objets)
 - **Un paramètre modifiable** (angle, force, durée, etc.)
 - **Un système de score** (points générés selon son action)
+
+--- 
+
+Membres :
+- Thibaut: 1. Ventilateur, 3. Canon, 8. Téléporteur, 9. Boule-chaîne
+- Miranto: 2. Trampoline, 5. Plateau tournant, 6. Mur automatique (montant/descendant), 10. Mur repoussoir
+- Stevens: 4. Sol accélérant, 7. Aimant, Robot(AI)

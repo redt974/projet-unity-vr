@@ -8,13 +8,13 @@ public class Interactable : MonoBehaviour
     public Color hoverColor = Color.yellow; 
     public Color highlightColor = Color.cyan;
 
-    public GameObject HoverObj;
+    // public GameObject HoverObj;
 
     public UnityEvent OnHighlight = new UnityEvent();
 
     public void Hover(bool toggle)
     {
-        HoverObj.SetActive(toggle);
+        // HoverObj.SetActive(toggle);
         renderer.material.color = toggle ? hoverColor : Color.white;
     }
 

@@ -16,6 +16,7 @@ public class Interactor : MonoBehaviour
     private bool isGrabbing;
     private Rigidbody currentRigidbody;
     private Vector3 previousPosition;
+
     private void OnEnable()
     {
         grabAction.action.performed += OnGrab;
@@ -36,38 +37,36 @@ public class Interactor : MonoBehaviour
 
     private void Update()
     {
-        lineRenderer.SetPosition(0, manette.transform.position - Vector3.up * .5f);
-        lineRenderer.SetPosition(1, manette.transform.position);
+        // Line renderer
+        if (lineRenderer != null)
+        {
+            lineRenderer.SetPosition(0, manette.transform.position - Vector3.up * 0.5f);
+            lineRenderer.SetPosition(1, manette.transform.position);
+        }
 
         if (isGrabbing && currentSelection != null)
         {
-            Vector3 targetPosition = manette.transform.position + Vector3.Distance(manette.transform.position, currentSelection.transform.position) * manette.transform.forward;
-            
-            // Calcul de la vitesse par différence de position
-            speed = (targetPosition - previousPosition) / Time.deltaTime;
-            previousPosition = targetPosition;
-
-            // Déplacement de l'objet à la nouvelle position
-            currentSelection.transform.position = targetPosition;
+            currentSelection.UpdateGrab(new Interactable.InteractionContext { inputPosition = manette.transform.position, time = Time.time });
         }
         else
         {
             Ray ray = new Ray(manette.transform.position, manette.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, layerMask))
             {
-                var gO = hit.collider.gameObject;
-                if (gO.TryGetComponent<Interactable>(out Interactable interactable))
+                GameObject gO = hit.collider.gameObject;
+                if (gO.TryGetComponent(out Interactable interactable))
                 {
-                    if (interactable != currentSelection)
+                    if (interactable != lastHovered)
                     {
+                        lastHovered?.Hover(false); // Unhover previous
                         interactable.Hover(true);
                         lastHovered = interactable;
                     }
                 }
             }
-            else if (lastHovered != null)
+            else
             {
-                lastHovered.Hover(false);
+                lastHovered?.Hover(false);
                 lastHovered = null;
             }
         }
@@ -80,14 +79,19 @@ public class Interactor : MonoBehaviour
         if (lastHovered != null)
         {
             currentSelection = lastHovered;
+
             if (currentSelection.TryGetComponent(out currentRigidbody))
             {
                 currentRigidbody.isKinematic = true;
             }
-            lastHovered = null;
-            isGrabbing = true;
 
-            // Récupération de la position de la manette au moment du clic
+            currentSelection.StartGrab();
+            currentSelection.Highlight(true);
+
+            lastHovered.Hover(false);
+            lastHovered = null;
+
+            isGrabbing = true;
             previousPosition = manette.transform.position;
         }
     }
@@ -99,12 +103,15 @@ public class Interactor : MonoBehaviour
         if (currentSelection != null)
         {
             currentSelection.Highlight(false);
+
             if (currentRigidbody != null)
             {
                 currentRigidbody.isKinematic = false;
-                currentRigidbody.linearVelocity = speed * speedMultiplier; // Applique la vitesse calculée
-                currentRigidbody = null; // Remet à null pour éviter des références invalides
+                currentRigidbody.linearVelocity = speed * speedMultiplier;
+                currentRigidbody = null;
             }
+
+            currentSelection.EndGrab();
             currentSelection = null;
             isGrabbing = false;
         }

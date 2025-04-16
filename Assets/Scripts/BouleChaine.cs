@@ -1,24 +1,25 @@
 using UnityEngine;
 
-public class BouleChaine : MonoBehaviour
+public class BouleChaine : Interactable
 {
     [SerializeField] private Transform pivot;
 
-    private bool isGrabbed = false;
-
-    public void SetGrabbed(bool state)
+    public override void StartGrab()
     {
-        isGrabbed = state;
+        base.StartGrab();
     }
 
-    private void OnDrawGizmos()
+    public override void EndGrab()
     {
-        if (pivot == null) return;
+        base.EndGrab();
+    }
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(pivot.position, 0.1f);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(pivot.position, transform.position);
+    public override void UpdateGrab(InteractionContext interaction)
+    {
+        base.UpdateGrab(interaction);
+        if (interaction != null)
+        {
+            Vector3 inputPosition = interaction.inputPosition;
+        }
     }
 }

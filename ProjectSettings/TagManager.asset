@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - Colis
+  - user
+  - Pcolis
+  - bouton
+  - Canon
   - BouleChaine
   layers:
   - Default

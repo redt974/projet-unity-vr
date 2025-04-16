@@ -80,6 +80,10 @@ public class VRInteractor : MonoBehaviour
         if (lastHovered != null)
         {
             currentSelection = lastHovered;
+            if (currentSelection.TryGetComponent(out currentRigidbody))
+            {
+                currentRigidbody.isKinematic = true;
+            }
             lastHovered = null;
             isGrabbing = true;
 
@@ -95,6 +99,12 @@ public class VRInteractor : MonoBehaviour
         if (currentSelection != null)
         {
             currentSelection.Highlight(false);
+            if (currentRigidbody != null)
+            {
+                currentRigidbody.isKinematic = false;
+                currentRigidbody.linearVelocity = speed * speedMultiplier; // Applique la vitesse calculée
+                currentRigidbody = null; // Remet à null pour éviter des références invalides
+            }
             currentSelection = null;
             isGrabbing = false;
         }

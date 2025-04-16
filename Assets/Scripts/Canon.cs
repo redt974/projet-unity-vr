@@ -29,6 +29,10 @@ public class Canon : Interactable
     {
         base.StartGrab();
         lineRenderer.enabled = true;
+
+        Rigidbody rigi = GetComponent<Rigidbody>();
+        if (rigi != null)
+            rigi.isKinematic = true; // toujours kinematic
     }
 
     public override void EndGrab()

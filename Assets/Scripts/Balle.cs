@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public class BouleChaine : Interactable
+public class Balle : Interactable
 {
-    [SerializeField] private Transform pivot;
-
     public override void StartGrab()
     {
         base.StartGrab();
@@ -21,9 +19,8 @@ public class BouleChaine : Interactable
     public override void UpdateGrab(InteractionContext interaction)
     {
         base.UpdateGrab(interaction);
-        if (interaction != null)
-        {
-            Vector3 inputPosition = interaction.inputPosition;
-        }
+
+        // Déplacement de l'objet
+        transform.position = interaction.inputPosition;
     }
 }

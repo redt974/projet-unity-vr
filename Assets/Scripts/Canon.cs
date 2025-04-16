@@ -1,48 +1,115 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Canon : MonoBehaviour
+public class Canon : Interactable
 {
-    [SerializeField] private Rigidbody projectile;
-    [SerializeField] private Transform pivot;
-    [SerializeField] private Transform target;
-    [SerializeField] private Transform departCanon;
-    [SerializeField] private float timeToTarget;
+    public Vector3 inputPosition;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float timeToTarget = 2f;
+    [SerializeField] private InputActionReference shootAction;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private Transform canonPivot;
+    [SerializeField] private Transform target; // La cible à atteindre
+    [SerializeField] private int trajectoryPoints = 30;
+    [SerializeField] private float timeStep = 0.1f;
 
-    private float timer;
-    private void Update() {
-        if(timer < 0)
+
+    private void OnEnable()
+    {
+        shootAction?.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        shootAction?.action.Disable();
+    }
+
+    public override void StartGrab()
+    {
+        base.StartGrab();
+        lineRenderer.enabled = true;
+    }
+
+    public override void EndGrab()
+    {
+        base.EndGrab();
+        lineRenderer.enabled = false;
+    }
+
+    public override void UpdateGrab(InteractionContext interaction)
+    {
+        base.UpdateGrab(interaction);
+        if (interaction != null)
         {
-            Shoot();
-            timer = timeToTarget;
+            inputPosition = interaction.inputPosition;
         }
-        timer -= Time.deltaTime;
-
-        pivot.forward = Vector3.Lerp(pivot.forward,GetInitialVelocity(departCanon.position,target.position,timeToTarget).normalized,.1f); 
-    }
-    
-    public void Shoot()
-    {
-        Rigidbody proj = Instantiate(projectile);
-        proj.transform.position = departCanon.position;
-        proj.linearVelocity = GetInitialVelocity(departCanon.position,target.position,timeToTarget);
-        proj.transform.forward = proj.linearVelocity.normalized;
-        Destroy(proj,10);
     }
 
-    public static Vector3 GetInitialVelocity(Vector3 origin, Vector3 target,float time)
+    private void Update()
     {
-        if(time <= 0) return Vector3.zero;
-        float vx,vy,vz;
-        vy = 0.5f * -Physics.gravity.y * time + (target.y - origin.y)/time;
-        var flatOrigin = origin;
-        flatOrigin.y = 0;
-        var flatTarget = target;
-        flatTarget.y = 0;
+        if (!isGrabbed) return;
 
-        Vector3 dir = flatTarget - flatOrigin;
-        var vxz = dir / time;
-        vx = Vector3.Project(vxz,new Vector3(1,0,0)).x;
-        vz = Vector3.Project(vxz,new Vector3(0,0,1)).z;
-        return new Vector3(vx,vy,vz);
+        if (target == null || spawnPoint == null || lineRenderer == null) return;
+
+        // Calcul de la vélocité initiale pour atteindre la cible
+        Vector3 initialVelocity = GetInitialVelocity(spawnPoint.position, target.position, timeToTarget);
+
+        // Orientation du canon
+        Vector3 direction = initialVelocity.normalized;
+        if (direction != Vector3.zero)
+        {
+            canonPivot.forward = Vector3.Lerp(canonPivot.forward, direction, Time.deltaTime * 5f);
+        }
+
+        // Mise à jour de la trajectoire
+        UpdateAngle(initialVelocity);
+
+        // Tir manuel
+        if (shootAction != null && shootAction.action.WasPressedThisFrame())
+        {
+            Shoot(initialVelocity);
+        }
+    }
+
+    private void Shoot(Vector3 initialVelocity)
+    {
+        GameObject projectile = Instantiate(projectilePrefab, spawnPoint.position, Quaternion.identity);
+        if (projectile.TryGetComponent(out Rigidbody rigi))
+        {
+            rigi.linearVelocity = initialVelocity;
+            projectile.transform.forward = rigi.linearVelocity.normalized;
+        }
+
+        Destroy(projectile, 10f);
+    }
+
+    private void UpdateAngle(Vector3 initialVelocity)
+    {
+        Vector3[] points = new Vector3[trajectoryPoints];
+        Vector3 currentPosition = spawnPoint.position;
+
+        for (int i = 0; i < trajectoryPoints; i++)
+        {
+            float t = i * timeStep;
+            Vector3 point = currentPosition + initialVelocity * t + 0.5f * Physics.gravity * t * t;
+            points[i] = point;
+        }
+
+        lineRenderer.positionCount = trajectoryPoints;
+        lineRenderer.SetPositions(points);
+    }
+
+    public static Vector3 GetInitialVelocity(Vector3 origin, Vector3 target, float time)
+    {
+        if (time <= 0f) return Vector3.zero;
+
+        Vector3 distance = target - origin;
+        Vector3 horizontal = new Vector3(distance.x, 0f, distance.z);
+        float vy = (distance.y + 0.5f * Mathf.Abs(Physics.gravity.y) * time * time) / time;
+        Vector3 velocity = horizontal / time;
+        velocity.y = vy;
+
+        return velocity;
     }
 }

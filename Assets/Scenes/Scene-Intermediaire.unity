@@ -9409,7 +9409,6 @@ MonoBehaviour:
   target: {fileID: 1266235703}
   trajectoryPoints: 30
   timeStep: 0.1
-  timer: 3
 --- !u!1 &1232211714
 GameObject:
   m_ObjectHideFlags: 0
@@ -10129,10 +10128,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1266235702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 083574b17bcf16b4597a682ba4c12577, type: 3}
+  m_Script: {fileID: 11500000, guid: 673b3a5c14b8f1449a1ece2ae3288ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 419998556}
+  renderer: {fileID: 1266235705}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}

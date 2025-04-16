@@ -1657,7 +1657,6 @@ GameObject:
   - component: {fileID: 219707217}
   - component: {fileID: 219707216}
   - component: {fileID: 219707215}
-  - component: {fileID: 219707221}
   m_Layer: 4
   m_Name: Boule
   m_TagString: Boule-Chaine
@@ -1781,26 +1780,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219707213}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &219707221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 219707213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 815573c201fe9a7448ddb7a46e3cb021, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderer: {fileID: 219707217}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  OnHighlight:
-    m_PersistentCalls:
-      m_Calls: []
-  pivot: {fileID: 289435667}
 --- !u!1 &226253499
 GameObject:
   m_ObjectHideFlags: 0
@@ -9259,7 +9238,6 @@ GameObject:
   - component: {fileID: 1228096234}
   - component: {fileID: 1228096233}
   - component: {fileID: 1228096232}
-  - component: {fileID: 1228096235}
   m_Layer: 4
   m_Name: Cylinder
   m_TagString: Canon
@@ -9360,35 +9338,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1228096230}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1228096235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1228096230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38ae65a4ffb076243b26ec7d5814c89b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderer: {fileID: 1228096233}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  OnHighlight:
-    m_PersistentCalls:
-      m_Calls: []
-  inputPosition: {x: 0, y: 0, z: 0}
-  projectilePrefab: {fileID: 2880143287012189026, guid: c999a6979e5b3d54181455f400c170b8, type: 3}
-  spawnPoint: {fileID: 944806749}
-  timeToTarget: 2
-  shootAction: {fileID: -5360940091907153974, guid: 33d1171fbe6eb9740831e93f44ae8a0a, type: 3}
-  lineRenderer: {fileID: 1983965810}
-  canonPivot: {fileID: 1228096231}
-  target: {fileID: 1266235703}
-  trajectoryPoints: 30
-  timeStep: 0.1
 --- !u!1 &1232211714
 GameObject:
   m_ObjectHideFlags: 0
@@ -10000,7 +9949,6 @@ GameObject:
   - component: {fileID: 1266235706}
   - component: {fileID: 1266235705}
   - component: {fileID: 1266235704}
-  - component: {fileID: 1266235707}
   m_Layer: 0
   m_Name: Cible
   m_TagString: Untagged
@@ -10099,25 +10047,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266235702}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1266235707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266235702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 673b3a5c14b8f1449a1ece2ae3288ee9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderer: {fileID: 1266235705}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  OnHighlight:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1276254782
 GameObject:
   m_ObjectHideFlags: 0
@@ -14996,7 +14925,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1846045866}
   - component: {fileID: 1846045869}
-  - component: {fileID: 1846045868}
   m_Layer: 0
   m_Name: Canon
   m_TagString: Canon
@@ -15021,25 +14949,6 @@ Transform:
   - {fileID: 1228096231}
   m_Father: {fileID: 1746942095}
   m_LocalEulerAnglesHint: {x: 0, y: 269.801, z: 0}
---- !u!114 &1846045868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846045865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 083574b17bcf16b4597a682ba4c12577, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderer: {fileID: 106935568}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  OnHighlight:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &1846045869
 BoxCollider:
   m_ObjectHideFlags: 0

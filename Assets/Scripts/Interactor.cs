@@ -1,109 +1,112 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
-public class Interactor : MonoBehaviour
+public class VRInteractor : MonoBehaviour
 {
-    [SerializeField] private Camera camera;
-    [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] private InputActionReference MouseClickAction;
-    [SerializeField] private InputActionReference MousePosition;
-
-    [SerializeField] private float ZValue;
+    [SerializeField] private GameObject manette;
+    [SerializeField] private InputActionReference grabAction;
+    [SerializeField] private InputActionReference positionAction;
+    [SerializeField] private float speedMultiplier = 1f;
+    [SerializeField] private LineRenderer lineRenderer;
 
     private Interactable lastHovered;
-
     private Interactable currentSelection;
-
-    private Vector2 mousePosition;
-
-    private Vector3 speed; 
-
-    [SerializeField] private float speedMultiplier = 1;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Vector3 speed;
+    private bool isGrabbing;
+    private Rigidbody currentRigidbody;
+    private Vector3 previousPosition;
+    private void OnEnable()
     {
-        MouseClickAction.action.performed += Click;
-        MousePosition.action.performed += OnMousePosition;
+        grabAction.action.performed += OnGrab;
+        grabAction.action.canceled += OnRelease;
+
+        grabAction.action.Enable();
+        positionAction.action.Enable();
     }
 
-    private void OnMousePosition(CallbackContext callbackContext)
+    private void OnDisable()
     {
-       // Debug.Log(callbackContext.ReadValue<Vector2>());
-        mousePosition = callbackContext.ReadValue<Vector2>();
+        grabAction.action.performed -= OnGrab;
+        grabAction.action.canceled -= OnRelease;
+
+        grabAction.action.Disable();
+        positionAction.action.Disable();
     }
 
-    private void Click(CallbackContext callbackContext)
+    private void Update()
     {
-        Debug.Log("Click");
-        //Si on a un objet s�lectionn�
-        if (currentSelection != null)
+        lineRenderer.SetPosition(0, manette.transform.position - Vector3.up * .5f);
+        lineRenderer.SetPosition(1, manette.transform.position);
+
+        if (isGrabbing && currentSelection != null)
         {
-            currentSelection.Highlight(false);
-            if(currentSelection.TryGetComponent(out Rigidbody rigi))
-            {
-                rigi.isKinematic = false;
-                rigi.linearVelocity = speed * speedMultiplier;
-            }
-            currentSelection = null;
-            return;
-        }
-        //Si on a pas d'objet d�tect�, on s'arr�te
-        if (lastHovered == null) return;
-        
-        if(currentSelection == null)
-        {  //Selection de l'objet
-            lastHovered.Highlight(true);
-            currentSelection = lastHovered;
-            if(currentSelection.TryGetComponent(out Rigidbody rigi))
-            {
-                rigi.isKinematic = true;
-            }
-            lastHovered = null;
-        }
-    }
+            Vector3 targetPosition = manette.transform.position + Vector3.Distance(manette.transform.position, currentSelection.transform.position) * manette.transform.forward;
+            
+            // Calcul de la vitesse par différence de position
+            speed = (targetPosition - previousPosition) / Time.deltaTime;
+            previousPosition = targetPosition;
 
-    // Update is called once per frame
-    void Update()
-    {
-        lineRenderer.SetPosition(0,camera.transform.position - Vector3.up * .5f);
-        lineRenderer.SetPosition(1,camera.transform.position);
-        var ray = camera.ScreenPointToRay(mousePosition);
-        if(Physics.Raycast(ray,out RaycastHit hit,100,layerMask))
-        {
-            //On touche un objet
-            var gO = hit.collider.gameObject;
-            lineRenderer.SetPosition(1, hit.point);
-            if (gO.TryGetComponent<Interactable>(out Interactable interactable))
-            {
-                if(interactable != currentSelection)
-                {
-                    interactable.Hover(true);
-                    lastHovered = interactable;
-                }
-            }
+            // Déplacement de l'objet à la nouvelle position
+            currentSelection.transform.position = targetPosition;
         }
         else
         {
-            if(lastHovered != null) lastHovered.Hover(false);
-            lastHovered = null;
+            Ray ray = new Ray(manette.transform.position, manette.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, layerMask))
+            {
+                var gO = hit.collider.gameObject;
+                if (gO.TryGetComponent<Interactable>(out Interactable interactable))
+                {
+                    if (interactable != currentSelection)
+                    {
+                        interactable.Hover(true);
+                        lastHovered = interactable;
+                    }
+                }
+            }
+            else if (lastHovered != null)
+            {
+                lastHovered.Hover(false);
+                lastHovered = null;
+            }
         }
+    }
 
-        if(currentSelection != null) //On a un objet sélectionné
+    private void OnGrab(InputAction.CallbackContext context)
+    {
+        Debug.Log("Gâchette pressée.");
+
+        if (lastHovered != null)
         {
-            var mP = (Vector3)mousePosition;
-            mP.z = Vector3.Distance(camera.transform.position,currentSelection.transform.position);
-            Vector3 targetPosition = camera.ScreenToWorldPoint(mP);
-            Debug.Log(targetPosition);
-            targetPosition.z = currentSelection.transform.position.z;
-            
-            speed = (targetPosition - currentSelection.transform.position) / Time.deltaTime;
-            
-            currentSelection.transform.position = targetPosition;
+            currentSelection = lastHovered;
+            if (currentSelection.TryGetComponent(out currentRigidbody))
+            {
+                currentRigidbody.isKinematic = true;
+            }
+            lastHovered = null;
+            isGrabbing = true;
 
+            // Récupération de la position de la manette au moment du clic
+            previousPosition = manette.transform.position;
+        }
+    }
+
+    private void OnRelease(InputAction.CallbackContext context)
+    {
+        Debug.Log("Gâchette relâchée.");
+
+        if (currentSelection != null)
+        {
+            currentSelection.Highlight(false);
+            if (currentRigidbody != null)
+            {
+                currentRigidbody.isKinematic = false;
+                currentRigidbody.linearVelocity = speed * speedMultiplier; // Applique la vitesse calculée
+                currentRigidbody = null; // Remet à null pour éviter des références invalides
+            }
+            currentSelection = null;
+            isGrabbing = false;
         }
     }
 }

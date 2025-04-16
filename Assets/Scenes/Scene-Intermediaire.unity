@@ -1657,7 +1657,6 @@ GameObject:
   - component: {fileID: 219707217}
   - component: {fileID: 219707216}
   - component: {fileID: 219707215}
-  - component: {fileID: 219707220}
   - component: {fileID: 219707221}
   m_Layer: 4
   m_Name: Boule
@@ -1782,25 +1781,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219707213}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &219707220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 219707213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 083574b17bcf16b4597a682ba4c12577, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderer: {fileID: 219707217}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  OnHighlight:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &219707221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1813,7 +1793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 815573c201fe9a7448ddb7a46e3cb021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
+  renderer: {fileID: 219707217}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}

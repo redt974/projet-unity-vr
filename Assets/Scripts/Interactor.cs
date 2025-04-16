@@ -1,119 +1,109 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class Interactor : MonoBehaviour
 {
-    [SerializeField] private LayerMask layerMask;
-    [SerializeField] private GameObject manette;
-    [SerializeField] private InputActionReference grabAction;
-    [SerializeField] private InputActionReference positionAction;
-    [SerializeField] private float speedMultiplier = 1f;
+    [SerializeField] private Camera camera;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private InputActionReference MouseClickAction;
+    [SerializeField] private InputActionReference MousePosition;
+
+    [SerializeField] private float ZValue;
 
     private Interactable lastHovered;
+
     private Interactable currentSelection;
-    private Vector3 speed;
-    private bool isGrabbing;
-    private Rigidbody currentRigidbody;
-    private Vector3 previousPosition;
 
-    private void OnEnable()
+    private Vector2 mousePosition;
+
+    private Vector3 speed; 
+
+    [SerializeField] private float speedMultiplier = 1;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
-        grabAction.action.performed += OnGrab;
-        grabAction.action.canceled += OnRelease;
-
-        grabAction.action.Enable();
-        positionAction.action.Enable();
+        MouseClickAction.action.performed += Click;
+        MousePosition.action.performed += OnMousePosition;
     }
 
-    private void OnDisable()
+    private void OnMousePosition(CallbackContext callbackContext)
     {
-        grabAction.action.performed -= OnGrab;
-        grabAction.action.canceled -= OnRelease;
-
-        grabAction.action.Disable();
-        positionAction.action.Disable();
+       // Debug.Log(callbackContext.ReadValue<Vector2>());
+        mousePosition = callbackContext.ReadValue<Vector2>();
     }
 
-    private void Update()
+    private void Click(CallbackContext callbackContext)
     {
-        // Line renderer
-        if (lineRenderer != null)
-        {
-            lineRenderer.SetPosition(0, manette.transform.position - Vector3.up * 0.5f);
-            lineRenderer.SetPosition(1, manette.transform.position);
-        }
-
-        if (isGrabbing && currentSelection != null)
-        {
-            currentSelection.UpdateGrab(new Interactable.InteractionContext { inputPosition = manette.transform.position, time = Time.time });
-        }
-        else
-        {
-            Ray ray = new Ray(manette.transform.position, manette.transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f, layerMask))
-            {
-                GameObject gO = hit.collider.gameObject;
-                if (gO.TryGetComponent(out Interactable interactable))
-                {
-                    if (interactable != lastHovered)
-                    {
-                        lastHovered?.Hover(false); // Unhover previous
-                        interactable.Hover(true);
-                        lastHovered = interactable;
-                    }
-                }
-            }
-            else
-            {
-                lastHovered?.Hover(false);
-                lastHovered = null;
-            }
-        }
-    }
-
-    private void OnGrab(InputAction.CallbackContext context)
-    {
-        Debug.Log("Gâchette pressée.");
-
-        if (lastHovered != null)
-        {
-            currentSelection = lastHovered;
-
-            if (currentSelection.TryGetComponent(out currentRigidbody))
-            {
-                currentRigidbody.isKinematic = true;
-            }
-
-            currentSelection.StartGrab();
-            currentSelection.Highlight(true);
-
-            lastHovered.Hover(false);
-            lastHovered = null;
-
-            isGrabbing = true;
-            previousPosition = manette.transform.position;
-        }
-    }
-
-    private void OnRelease(InputAction.CallbackContext context)
-    {
-        Debug.Log("Gâchette relâchée.");
-
+        Debug.Log("Click");
+        //Si on a un objet s�lectionn�
         if (currentSelection != null)
         {
             currentSelection.Highlight(false);
-
-            if (currentRigidbody != null)
+            if(currentSelection.TryGetComponent(out Rigidbody rigi))
             {
-                currentRigidbody.isKinematic = false;
-                currentRigidbody.linearVelocity = speed * speedMultiplier;
-                currentRigidbody = null;
+                rigi.isKinematic = false;
+                rigi.linearVelocity = speed * speedMultiplier;
             }
-
-            currentSelection.EndGrab();
             currentSelection = null;
-            isGrabbing = false;
+            return;
+        }
+        //Si on a pas d'objet d�tect�, on s'arr�te
+        if (lastHovered == null) return;
+        
+        if(currentSelection == null)
+        {  //Selection de l'objet
+            lastHovered.Highlight(true);
+            currentSelection = lastHovered;
+            if(currentSelection.TryGetComponent(out Rigidbody rigi))
+            {
+                rigi.isKinematic = true;
+            }
+            lastHovered = null;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        lineRenderer.SetPosition(0,camera.transform.position - Vector3.up * .5f);
+        lineRenderer.SetPosition(1,camera.transform.position);
+        var ray = camera.ScreenPointToRay(mousePosition);
+        if(Physics.Raycast(ray,out RaycastHit hit,100,layerMask))
+        {
+            //On touche un objet
+            var gO = hit.collider.gameObject;
+            lineRenderer.SetPosition(1, hit.point);
+            if (gO.TryGetComponent<Interactable>(out Interactable interactable))
+            {
+                if(interactable != currentSelection)
+                {
+                    interactable.Hover(true);
+                    lastHovered = interactable;
+                }
+            }
+        }
+        else
+        {
+            if(lastHovered != null) lastHovered.Hover(false);
+            lastHovered = null;
+        }
+
+        if(currentSelection != null) //On a un objet sélectionné
+        {
+            var mP = (Vector3)mousePosition;
+            mP.z = Vector3.Distance(camera.transform.position,currentSelection.transform.position);
+            Vector3 targetPosition = camera.ScreenToWorldPoint(mP);
+            Debug.Log(targetPosition);
+            targetPosition.z = currentSelection.transform.position.z;
+            
+            speed = (targetPosition - currentSelection.transform.position) / Time.deltaTime;
+            
+            currentSelection.transform.position = targetPosition;
+
         }
     }
 }

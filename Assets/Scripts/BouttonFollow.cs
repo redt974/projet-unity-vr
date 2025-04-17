@@ -1,22 +1,21 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(Interactable))]
+
 public class BoutonFollow : MonoBehaviour
 {
-    [Header("Réglages du follow")]
     [Tooltip("L'objet visuel que l'on fera coulisser")]
     public Transform visualTarget;
-    [Tooltip("Axe local de déplacement")]
+    [Tooltip("Axe local de dï¿½placement")]
     public Vector3 localAxis = Vector3.up;
     [Tooltip("Vitesse de retour")]
     public float resetSpeed = 5f;
     [Tooltip("Angle max entre la direction du poke et l'axe local")]
     public float followAngle = 90f;
-    [Tooltip("Tag utilisé par le collider de l'interactor (pointeur)")]
+    [Tooltip("Tag utilisï¿½ par le collider de l'interactor (pointeur)")]
     public string interactorTag = "Interactor";
 
-    // état interne
+    // ï¿½tat interne
     private Vector3 initialLocalPos;
     private bool isFollowing = false;
     private bool freeze = false;
@@ -40,7 +39,7 @@ public class BoutonFollow : MonoBehaviour
 
         if (other.CompareTag(interactorTag))
         {
-            // début du follow
+            // dï¿½but du follow
             pokeTransform = other.transform;
             offset = visualTarget.position - pokeTransform.position;
 
@@ -60,13 +59,13 @@ public class BoutonFollow : MonoBehaviour
             // fin du follow
             isFollowing = false;
             freeze = false;
-            interactable.Highlight(false); // on désactive la couleur
+            interactable.Highlight(false); // on dï¿½sactive la couleur
         }
     }
 
     /// <summary>
-    /// Peut être appelé depuis votre interactor (ex : dans OnGrab) 
-    /// pour bloquer le bouton en position appuyée.
+    /// Peut ï¿½tre appelï¿½ depuis votre interactor (exï¿½: dans OnGrab) 
+    /// pour bloquer le bouton en position appuyï¿½e.
     /// </summary>
     public void FreezeButton()
     {

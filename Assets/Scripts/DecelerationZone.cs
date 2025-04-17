@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DecelerationZone : MonoBehaviour
 {
-    [SerializeField] private float decelerationRate = 2f; // Intensité de la décélération par seconde
+    [SerializeField] public float decelerationRate = 2f; // Intensité de la décélération par seconde
 
     // Cette méthode est appelée à chaque frame tant que le colis reste dans le trigger
     private void OnTriggerStay(Collider other)

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpeedBoost : MonoBehaviour
 {
-    [SerializeField] private float boostMultiplier = 2f; // Facteur par lequel la vitesse du colis sera multipliée
+    [SerializeField] public float boostMultiplier = 2f; // Facteur par lequel la vitesse du colis sera multipliée
 
     // Méthode appelée lorsqu'un objet entre dans le trigger du sol bleu
     private void OnTriggerEnter(Collider other)

@@ -1,20 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MultiInteractor : MonoBehaviour
+public class VRInteractor : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject manette;
     [SerializeField] private InputActionReference grabAction;
     [SerializeField] private InputActionReference positionAction;
-    [SerializeField] private float speedMultiplier = 1f;
     [SerializeField] private LineRenderer lineRenderer;
 
     private Interactable lastHovered;
     private Interactable currentSelection;
     private Vector3 speed;
     private bool isGrabbing;
-    private Rigidbody currentRigidbody;
     private Vector3 previousPosition;
     private void OnEnable()
     {
@@ -42,7 +40,7 @@ public class MultiInteractor : MonoBehaviour
         if (isGrabbing && currentSelection != null)
         {
             Vector3 targetPosition = manette.transform.position + Vector3.Distance(manette.transform.position, currentSelection.transform.position) * manette.transform.forward;
-
+            
             // Calcul de la vitesse par différence de position
             speed = (targetPosition - previousPosition) / Time.deltaTime;
             previousPosition = targetPosition;
@@ -80,10 +78,6 @@ public class MultiInteractor : MonoBehaviour
         if (lastHovered != null)
         {
             currentSelection = lastHovered;
-            if (currentSelection.TryGetComponent(out currentRigidbody))
-            {
-                currentRigidbody.isKinematic = true;
-            }
             lastHovered = null;
             isGrabbing = true;
 
@@ -99,12 +93,6 @@ public class MultiInteractor : MonoBehaviour
         if (currentSelection != null)
         {
             currentSelection.Highlight(false);
-            if (currentRigidbody != null)
-            {
-                currentRigidbody.isKinematic = false;
-                currentRigidbody.linearVelocity = speed * speedMultiplier; // Applique la vitesse calculée
-                currentRigidbody = null; // Remet à null pour éviter des références invalides
-            }
             currentSelection = null;
             isGrabbing = false;
         }

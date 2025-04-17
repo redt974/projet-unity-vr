@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Interactable : MonoBehaviour
+public class MultiInteractable : MonoBehaviour
 {
     [SerializeField] private List<Renderer> listRenderer;
     [SerializeField] private List<Rigidbody> listRigidbodies;

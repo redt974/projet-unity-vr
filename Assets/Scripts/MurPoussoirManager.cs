@@ -3,9 +3,8 @@ using UnityEngine;
 public class MurPoussoirManager : MonoBehaviour
 {
    
-    private float distanceMur = 4f;         // Distance de déplacement
-    public float vitessemur = 2f;            // Vitesse de va-et-vient
-    
+    public float distanceMur = 6f;         // Distance de déplacement
+    public float vitessemur = 2f;            // Vitesse va-et-vient
     public float force = 5f;                // Force appliquée à la boule
 
     private Vector3 startPosition;

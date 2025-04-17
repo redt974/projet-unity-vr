@@ -11,6 +11,8 @@ TagManager:
   - bouton
   - Canon
   - BouleChaine
+  - reset
+  - Interactor
   layers:
   - Default
   - TransparentFX

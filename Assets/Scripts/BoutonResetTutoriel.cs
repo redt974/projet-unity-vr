@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class resetWorld : MonoBehaviour
+public class BoutonResetTutoriel : MonoBehaviour
 {
-    // Tag utilisé pour déclencher le reset.
-    public string tagReset = "reset";
+ // Tag utilisé pour déclencher le reset.
+    public string tagReset = "bouton";
 
     // Tag des objets "colis" qui doivent être réinitialisés.
-    public string tagColis = "Colis";
+    public string tagColis = "Object";
+    [SerializeField] public MurManager magnetScript ;
 
     private void OnTriggerEnter(Collider other)
     {
         // Si l'objet entrant possède le tag "reset"
         if (other.CompareTag(tagReset))
         {
+            magnetScript.vitesse = 0;
             ResetAllColis();
+            
         }
     }
 

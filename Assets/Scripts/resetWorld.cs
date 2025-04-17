@@ -6,7 +6,7 @@ public class resetWorld : MonoBehaviour
     public string tagReset = "reset";
 
     // Tag des objets "colis" qui doivent être réinitialisés.
-    public string tagColis = "Tcolis";
+    public string tagColis = "Object";
 
     private void OnTriggerEnter(Collider other)
     {

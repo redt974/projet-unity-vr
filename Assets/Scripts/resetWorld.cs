@@ -3,7 +3,7 @@ using UnityEngine;
 public class resetWorld : MonoBehaviour
 {
     // Tag utilisé pour déclencher le reset.
-    public string tagReset = "reset";
+    public string tagBouton = "bouton";
 
     // Tag des objets "colis" qui doivent être réinitialisés.
     public string tagColis = "Balle";
@@ -14,7 +14,7 @@ public class resetWorld : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Si l'objet entrant possède le tag "reset"
-        if (other.CompareTag(tagReset))
+        if (other.CompareTag(tagBouton))
         {
             ResetAllTaggedObjects();
         }
@@ -27,6 +27,8 @@ public class resetWorld : MonoBehaviour
 
         // Réinitialiser tous les autres objets
         ResetByTag(tagObjet);
+
+        ResetByTag(tagBouton);
 
         Debug.Log("Tous les colis et objets ont été remis à leur position initiale.");
     }

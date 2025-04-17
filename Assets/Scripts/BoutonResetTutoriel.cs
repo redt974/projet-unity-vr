@@ -2,37 +2,54 @@ using UnityEngine;
 
 public class BoutonResetTutoriel : MonoBehaviour
 {
- // Tag utilisé pour déclencher le reset.
-    public string tagReset = "bouton";
+    // Tag utilisé pour déclencher le reset.
+    public string tagBouton = "bouton";
 
     // Tag des objets "colis" qui doivent être réinitialisés.
-    public string tagColis = "Object";
+    public string tagColis = "Boule";
+
+    // Tag des autres objets à réinitialiser.
+    public string tagObjet = "Objet";
+
     [SerializeField] public MurManager magnetScript ;
+
 
     private void OnTriggerEnter(Collider other)
     {
         // Si l'objet entrant possède le tag "reset"
-        if (other.CompareTag(tagReset))
+        if (other.CompareTag(tagBouton))
         {
-            magnetScript.vitesse = 0;
-            ResetAllColis();
-            
+            ResetAllTaggedObjects();
+            magnetScript.vitesse = 0; // Réinitialiser la vitesse à 0
         }
     }
 
-    private void ResetAllColis()
+    private void ResetAllTaggedObjects()
     {
-        // Trouver tous les objets avec le tag "colis".
-        GameObject[] colisObjects = GameObject.FindGameObjectsWithTag(tagColis);
-        foreach (GameObject colis in colisObjects)
+        // Réinitialiser tous les colis
+        ResetByTag(tagColis);
+
+        // Réinitialiser tous les autres objets
+        ResetByTag(tagObjet);
+
+        ResetByTag(tagBouton);
+
+        Debug.Log("Tous les colis et objets ont été remis à leur position initiale.");
+    }
+
+    private void ResetByTag(string tag)
+    {
+        // Trouver tous les objets avec le tag spécifié.
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+        foreach (GameObject obj in objects)
         {
-            // Essayer de récupérer le script ResettableColis sur l'objet.
-            InitialPosition resettable = colis.GetComponent<InitialPosition>();
+
+            InitialPosition resettable = obj.GetComponent<InitialPosition>();
             if (resettable != null)
             {
                 resettable.ResetPosition();
             }
+
         }
-        Debug.Log("Tous les colis ont été remis à leur position initiale.");
     }
 }

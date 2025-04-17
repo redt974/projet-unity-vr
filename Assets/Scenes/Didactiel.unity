@@ -2845,7 +2845,7 @@ GameObject:
   - component: {fileID: 1051651058}
   - component: {fileID: 1051651057}
   - component: {fileID: 1051651056}
-  - component: {fileID: 1051651055}
+  - component: {fileID: 1051651060}
   m_Layer: 0
   m_Name: BouttonReset
   m_TagString: Untagged
@@ -2853,21 +2853,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1051651055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1051651054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0d15603fe40e524aaca932dd9f17949, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tagReset: bouton
-  tagColis: Boule
-  magnetScript: {fileID: 1414613715}
 --- !u!65 &1051651056
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2958,6 +2943,22 @@ Transform:
   - {fileID: 1396232151}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -43.761, z: 0}
+--- !u!114 &1051651060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051651054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d15603fe40e524aaca932dd9f17949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagBouton: bouton
+  tagColis: Boule
+  tagObjet: Objet
+  magnetScript: {fileID: 1414613715}
 --- !u!1 &1091978187
 GameObject:
   m_ObjectHideFlags: 0
@@ -3461,19 +3462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbe81d2b058e5a43aff3931105e5f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
-    m_Bits: 16
-  manette: {fileID: 1200030100}
-  grabAction: {fileID: -3370036560457221378, guid: 33d1171fbe6eb9740831e93f44ae8a0a, type: 3}
-  positionAction: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  speedMultiplier: 1
-  lineRenderer: {fileID: 284711749}
-  lastHovered: {fileID: 0}
-  currentSelection: {fileID: 0}
-  speed: {x: 0, y: 0, z: 0}
-  isGrabbing: 0
-  currentRigidbody: {fileID: 0}
-  previousPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1217840515
 GameObject:
   m_ObjectHideFlags: 0
@@ -3617,7 +3605,7 @@ GameObject:
   - component: {fileID: 1232954264}
   - component: {fileID: 1232954263}
   - component: {fileID: 1232954262}
-  - component: {fileID: 1232954261}
+  - component: {fileID: 1232954266}
   m_Layer: 0
   m_Name: "Arriv\xE9"
   m_TagString: Untagged
@@ -3625,18 +3613,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1232954261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1232954260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19a9100dcabd83a4ba0973d21ac980d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1232954262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3726,6 +3702,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1232954266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232954260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1775bfbb15c59d845a878081c9e7b849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Niv1
 --- !u!1 &1253209933
 GameObject:
   m_ObjectHideFlags: 0
@@ -4181,7 +4170,7 @@ GameObject:
   - component: {fileID: 1350659372}
   m_Layer: 4
   m_Name: 'Trampoline '
-  m_TagString: Boule
+  m_TagString: Objet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

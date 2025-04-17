@@ -1769,7 +1769,7 @@ GameObject:
   - component: {fileID: 381416134}
   m_Layer: 4
   m_Name: Sphere
-  m_TagString: Boule
+  m_TagString: Balle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4043,7 +4043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetScript: {fileID: 1771195061}
-  augmentation: 5
+  augmentation: 2
   tagCible: bouton
 --- !u!1 &1212681130
 GameObject:
@@ -5677,8 +5677,8 @@ Transform:
   m_GameObject: {fileID: 1714470063}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.030504646, w: 0.99953467}
-  m_LocalPosition: {x: -26.428848, y: 2.6666207, z: 2.5}
-  m_LocalScale: {x: 28.859678, y: 3.624542, z: 0.18652147}
+  m_LocalPosition: {x: -27.3483, y: 2.6104, z: 2.5}
+  m_LocalScale: {x: 30.700926, y: 3.624542, z: 0.18652147}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -5852,7 +5852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e286e9fb96cc841a613c3418ac0f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceMur: 6
+  distanceMur: 1
   vitessemur: 0
   force: 30
 --- !u!65 &1771195062
@@ -5938,8 +5938,8 @@ Transform:
   m_GameObject: {fileID: 1771195060}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50.5, y: 2.3099, z: 35.59}
-  m_LocalScale: {x: 5.381379, y: 4.582047, z: 4.146838}
+  m_LocalPosition: {x: -48.08, y: 2.26, z: 35.03}
+  m_LocalScale: {x: 0.9116623, y: 4.582047, z: 4.146838}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -6046,8 +6046,8 @@ Transform:
   m_GameObject: {fileID: 1823136034}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.030504646, w: 0.99953467}
-  m_LocalPosition: {x: -28.88, y: 3.07, z: -2.39}
-  m_LocalScale: {x: 33.724224, y: 4.7287188, z: 0.18652147}
+  m_LocalPosition: {x: -29.746, y: 3.017, z: -2.39}
+  m_LocalScale: {x: 35.459885, y: 4.7287188, z: 0.18652147}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

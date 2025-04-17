@@ -32,7 +32,7 @@ public class MurPoussoirManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Boule"))
+        if (other.gameObject.CompareTag("Balle"))
         {
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
             if (rb != null)

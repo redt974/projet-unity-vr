@@ -42,7 +42,7 @@ public class VRInteractor : MonoBehaviour
         if (isGrabbing && currentSelection != null)
         {
             Vector3 targetPosition = manette.transform.position + Vector3.Distance(manette.transform.position, currentSelection.transform.position) * manette.transform.forward;
-            
+
             // Calcul de la vitesse par différence de position
             speed = (targetPosition - previousPosition) / Time.deltaTime;
             previousPosition = targetPosition;
@@ -80,10 +80,8 @@ public class VRInteractor : MonoBehaviour
         if (lastHovered != null)
         {
             currentSelection = lastHovered;
-            if (currentSelection.TryGetComponent(out currentRigidbody))
-            {
-                currentRigidbody.isKinematic = true;
-            }
+            currentSelection.SetKinematic(true);
+
             lastHovered = null;
             isGrabbing = true;
 
@@ -99,12 +97,9 @@ public class VRInteractor : MonoBehaviour
         if (currentSelection != null)
         {
             currentSelection.Highlight(false);
-            if (currentRigidbody != null)
-            {
-                currentRigidbody.isKinematic = false;
-                currentRigidbody.linearVelocity = speed * speedMultiplier; // Applique la vitesse calculée
-                currentRigidbody = null; // Remet à null pour éviter des références invalides
-            }
+            currentSelection.SetKinematic(false);
+            currentSelection.ApplyVelocity(speed, speedMultiplier);
+
             currentSelection = null;
             isGrabbing = false;
         }

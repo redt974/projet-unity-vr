@@ -19,7 +19,5 @@ public class CameraController : MonoBehaviour
     void FixedUpdate()
     {
         gameObject.transform.position = Vector3.Lerp(transform.position, CameraTarget.position + offset, lerpSpeed);
-        
-        
     }
 }

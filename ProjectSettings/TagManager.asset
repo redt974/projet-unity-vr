@@ -11,6 +11,9 @@ TagManager:
   - bouton
   - Canon
   - BouleChaine
+  - Boule-Chaine
+  - Balle
+  - Missile
   layers:
   - Default
   - TransparentFX

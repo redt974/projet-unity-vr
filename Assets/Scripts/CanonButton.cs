@@ -1,34 +1,27 @@
-using System;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class CanonButton : MonoBehaviour
+public class CanonBouton : MonoBehaviour
 {
-    public Action<Collision> OnCollision;
+   // Référence vers le script Magnet attaché à l'objet cible
+   public Canon canonScript;
 
-    public CollisionUnityEvent OnCollisionEvent = new CollisionUnityEvent();
+   public string tagCible = "bouton";
 
-   [Serializable]
-    public class CollisionUnityEvent : UnityEvent<Collision>
-    {
-
-    }
-   void Update()
+   // OnTriggerEnter est appelée quand un autre collider entre dans le trigger attaché à cet objet
+   private void OnTriggerEnter(Collider other)
    {
-
-   }
-
-   public void OnExternalTrigger()
-   {
-      var collision = new Collision();
-      OnCollision?.Invoke(collision);
-      OnCollisionEvent?.Invoke(collision);
-   }
-
-   private void OnCollisionEnter(Collision other) 
-   {
-      Debug.Log("Percution " + gameObject.name);
-      OnCollision?.Invoke(other);
-      OnCollisionEvent?.Invoke(other);
+      // Vérifier que l'objet entrant possède le tag voulu
+      if (other.CompareTag(tagCible))
+      {
+         if (canonScript != null)
+         {
+            canonScript.Shoot();
+            Debug.Log("Canon tiré !");
+         }
+         else
+         {
+            Debug.LogWarning("Référence au script Canon manquante !");
+         }
+      }
    }
 }

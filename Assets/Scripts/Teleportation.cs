@@ -2,28 +2,32 @@ using UnityEngine;
 
 public class Teleportation : MonoBehaviour
 {
-    public Transform teleportTarget;
-    public string tagToTeleport = "Balle";
+    [SerializeField] private Transform teleportTarget;
+    [SerializeField] private string tagToTeleport = "Balle";
 
     private void OnTriggerEnter(Collider other)
     {
         if (teleportTarget == null) return;
 
-        if (string.IsNullOrEmpty(tagToTeleport) || other.CompareTag(tagToTeleport))
+        if (other.CompareTag(tagToTeleport))
         {
-            CharacterController controller = other.GetComponent<CharacterController>();
+            Rigidbody rigi = other.attachedRigidbody;
 
-            if (controller != null)
+            if (other.attachedRigidbody != null)
             {
-                // Si c'est un joueur avec un CharacterController, on le déplace sans affecter la physique
-                controller.enabled = false;
-                other.transform.position = teleportTarget.position;
-                controller.enabled = true;
-            }
-            else
-            {
-                // Sinon on déplace normalement
-                other.transform.position = teleportTarget.position;
+                // Conserver la vitesse dans la direction d'entrée
+                Vector3 vitesseEntree = rigi.linearVelocity;
+                float vitesseMagnitude = vitesseEntree.magnitude;
+
+                // Nouvelle direction basée sur l'orientation de la cible
+                Vector3 directionSortie = teleportTarget.forward;
+
+                // Calculer la vitesse finale en réorientant la direction
+                Vector3 vitesseSortie = directionSortie * vitesseMagnitude;
+
+                // Téléporter et ajuster la vitesse
+                rigi.position = teleportTarget.position;
+                rigi.linearVelocity = vitesseSortie;
             }
         }
     }

@@ -6,30 +6,44 @@ public class resetWorld : MonoBehaviour
     public string tagReset = "reset";
 
     // Tag des objets "colis" qui doivent être réinitialisés.
-    public string tagColis = "Colis";
+    public string tagColis = "Balle";
+
+    // Tag des autres objets à réinitialiser.
+    public string tagObjet = "Objet";
 
     private void OnTriggerEnter(Collider other)
     {
         // Si l'objet entrant possède le tag "reset"
         if (other.CompareTag(tagReset))
         {
-            ResetAllColis();
+            ResetAllTaggedObjects();
         }
     }
 
-    private void ResetAllColis()
+    private void ResetAllTaggedObjects()
     {
-        // Trouver tous les objets avec le tag "colis".
-        GameObject[] colisObjects = GameObject.FindGameObjectsWithTag(tagColis);
-        foreach (GameObject colis in colisObjects)
+        // Réinitialiser tous les colis
+        ResetByTag(tagColis);
+
+        // Réinitialiser tous les autres objets
+        ResetByTag(tagObjet);
+
+        Debug.Log("Tous les colis et objets ont été remis à leur position initiale.");
+    }
+
+    private void ResetByTag(string tag)
+    {
+        // Trouver tous les objets avec le tag spécifié.
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+        foreach (GameObject obj in objects)
         {
-            // Essayer de récupérer le script ResettableColis sur l'objet.
-            InitialPosition resettable = colis.GetComponent<InitialPosition>();
+
+            InitialPosition resettable = obj.GetComponent<InitialPosition>();
             if (resettable != null)
             {
                 resettable.ResetPosition();
             }
+
         }
-        Debug.Log("Tous les colis ont été remis à leur position initiale.");
     }
 }

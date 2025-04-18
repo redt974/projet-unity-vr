@@ -7,24 +7,23 @@ public class InitialPosition : MonoBehaviour
 
     void Start()
     {
-        // Sauvegarder la position et la rotation initiale du colis.
+
         initialPosition = transform.position;
         initialRotation = transform.rotation;
     }
 
     public void ResetPosition()
     {
-        // Réinitialiser la position et la rotation à leur état initial.
+
         transform.position = initialPosition;
         transform.rotation = initialRotation;
 
-        // Réinitialiser la vélocité du Rigidbody, s'il existe.
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            // (Optionnel) Désactiver la gravité après reset.
+
             rb.useGravity = false;
         }
 

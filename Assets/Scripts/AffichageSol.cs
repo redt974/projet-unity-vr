@@ -25,7 +25,7 @@ public class AffichageSol : MonoBehaviour
 
             if (DecelerationZoneScript != null)
             {
-                text += "Décélération : " + DecelerationZoneScript.decelerationRate.ToString("F2"); // Exemple, adapte si le champ est différent
+                text += "Décélération : " + DecelerationZoneScript.decelerationRate.ToString("F2");
             }
             else
             {

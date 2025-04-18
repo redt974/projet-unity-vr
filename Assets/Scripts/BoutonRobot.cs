@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class BoutonRobot : MonoBehaviour
 {
-    // Référence vers le script Magnet attaché à l'objet cible
+
     public AIComponent RobotScript;
 
-    // Valeur d'augmentation à ajouter à la force d'force actuelle
+
     public float augmentation = 5f;
 
-    // Optionnel : permet de limiter l'activation à un objet ayant un tag précis (exemple "Player")
+
     public string tagCible = "bouton";
 
-    // OnTriggerEnter est appelée quand un autre collider entre dans le trigger attaché à cet objet
+
     private void OnTriggerEnter(Collider other)
     {
-        // Vérifier que l'objet entrant possède le tag voulu
+
         if (other.CompareTag(tagCible))
         {
             if (RobotScript != null)
             {
-                // Ajouter la valeur d'augmentation à l'force actuelle
+
                 RobotScript.throwForce += augmentation;
                 Debug.Log("Force du mur poussoir augmentée de " + augmentation + ". Nouvelle valeur: " + RobotScript.throwForce);
             }

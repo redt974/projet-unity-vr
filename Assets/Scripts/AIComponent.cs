@@ -7,7 +7,7 @@ public class AIComponent : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;         // Le composant NavMeshAgent du robot
     [SerializeField] private Transform destination;      // Le point de livraison (destination du lancer)
     [SerializeField] private float pickupDistance = 2f;    // Distance minimale pour ramasser le colis
-    [SerializeField] private float throwForce = 10f;       // Force appliquée au colis lors du lancer
+    [SerializeField] public float throwForce = 10f;       // Force appliquée au colis lors du lancer
 
     private bool hasPickedUp = false;
     private bool hasThrown = false;
